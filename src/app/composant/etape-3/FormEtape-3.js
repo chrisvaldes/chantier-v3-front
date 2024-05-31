@@ -1,73 +1,12 @@
-"use client"
-
-import validation from "@/app/ErreurFormEtape3/validation";
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-export default function Home() {
-
-    const route = useRouter()
-
-    const [message, setMessage] = useState("");
-
-    const [error, setError] = useState({})
-
-    const [userProfile, setUserProfile] = useState({
-        firstname: "",
-        lastname: "chris",
-        object: "Villa 2km²",
-        type: "private",
-        email: "",
-        tel: "",
-    })
 
 
+import Link from "next/navigation";
+import React from "react";
 
-    const handleChangedInput = (e) => {
-        setUserProfile({
-            ...userProfile,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleNextStep = async (e) => {
-        e.preventDefault();
-
-        if (userProfile.firstname !== "" || userProfile.email !== "" || userProfile.tel !== "") {
-            const { firstname, lastname, object, type, email, tel } = userProfile;
-
-            await axios.post("http://localhost:8000/api/v3/prospect/create", { firstname, lastname, object, type, email, tel })
-                .then((res) => {
-                    console.log(res.data);
-                }).catch((e) => {
-                    console.log("Erreur de recupération de données : " + e)
-                })
-
-            setUserProfile({
-                ...userProfile,
-                firstname: "",
-                lastname: "",
-                object: "",
-                type: "",
-                email: "",
-                tel: "",
-            })
-            route.push("etape-4")
-        } else {
-            setError(validation(userProfile))
-        }
-
-
-    }
-
+export default function FormEtape3( ){
     return (
-        <main>
-            <div id="__next">
-                <div id="app-root" className="__variable_b02b0a font-sans h-full">
-
-                    <form className="contents" id="offering" noValidate="" method="POST">
+        <>
+            <form className="contents" id="offering" noValidate="" method="POST">
                         <div className="contents">
                             <div className="items-stretch min-h-full w-full">
                                 <div className="contents">
@@ -163,7 +102,7 @@ export default function Home() {
                                                                                                 >
                                                                                                     <input
                                                                                                         className="input-etape3 w-full h-12 bg-transparent text-gray-dark text-base-md leading-4 align-middle appearance-none focus:outline-none placeholder:text-gray-main-2 placeholder:font-light placeholder:opacity-1"
-                                                                                                        type="auto"
+                                                                                                        type="text"
                                                                                                         name="firstname"
                                                                                                         autoComplete="name"
                                                                                                         data-raw-input="true"
@@ -171,13 +110,13 @@ export default function Home() {
                                                                                                         data-lpignore="true"
                                                                                                         value={userProfile.firstname}
                                                                                                         onChange={handleChangedInput}
-                                                                                                    />
-                                                                                                </div>
-                                                                                            </div>
+                                                                                                    /> 
+                                                                                                </div> 
+                                                                                            </div> 
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>  
+                                                                            </div> 
                                                                             <div className="contents [&amp;>*:last-child]:mb-4">
                                                                                 <div className="relative" data-testid="form-email-input-email">
                                                                                     <div className="relative w-full">
@@ -299,8 +238,6 @@ export default function Home() {
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </main>
-    );
+        </>
+    )
 }
